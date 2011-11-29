@@ -1,0 +1,6 @@
+.*.sw[pon]
+.DS_Store
+.rvmrc
+Gemfile.lock
+coverage
+pkg
