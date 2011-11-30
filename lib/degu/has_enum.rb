@@ -2,8 +2,8 @@ require "degu/renum"
 
 module Degu
   module HasEnum
-    def self.included(base)
-      base.extend(ClassMethods)
+    def self.included(modul)
+      modul.extend(ClassMethods)
     end
 
     module ClassMethods

@@ -44,6 +44,11 @@ def setup_db
         t.integer :drinks_set, :default => 0
         t.integer :music_bitfield, :default => 0
       end
+
+      create_table :itunes do |t|
+        t.string  :location
+        t.integer :music_bitfield
+      end
     end
   end
 end
@@ -124,6 +129,10 @@ class Punk < ActiveRecord::Base; end
 
 class Party < ActiveRecord::Base
   has_set :drinks, :column_name => :drinks_set
+end
+
+class Itunes < ActiveRecord::Base
+  has_set :music, :enum_class => MusicStyles
 end
 
 teardown_db # And drop them right afterwards

@@ -74,7 +74,7 @@ class HasSetTest < Test::Unit::TestCase
   end
 
   def test_should_raise_exception_if_strings_cannot_be_constantized
-    assert_raise(NameError) { Person.new(:fullname => "Jessie Summers", :interests => "Dadding, Shopping") }
+    assert_raise(ArgumentError) { Person.new(:fullname => "Jessie Summers", :interests => "Dadding, Shopping") }
   end
 
   def test_should_provide_the_name_of_the_bitfield_column
@@ -98,6 +98,36 @@ class HasSetTest < Test::Unit::TestCase
     assert party.save, "Party should save!"
     party.reload
     assert party.music_rock?, "Party should have Rock music."
+  end
+
+  def test_should_allow_unset_bitset
+    itunes = Itunes.new
+    assert_nil itunes.music, itunes.inspect
+    assert itunes.save, "Itunes should save!"
+    itunes.reload
+    assert_nil itunes.music, itunes.inspect
+  end
+
+  def test_should_understand_symbol_values
+    itunes = Itunes.new
+    itunes.music = :rock, :pop
+    assert itunes.music_rock?, "Itunes should have Rock music."
+    assert itunes.music_pop?, "Itunes should have Pop music."
+    assert itunes.save, "Itunes should save!"
+    itunes.reload
+    assert itunes.music_rock?, "Itunes should have Rock music."
+    assert itunes.music_pop?, "Itunes should have Pop music."
+  end
+
+  def test_should_understand_comma_separated_strings
+    itunes = Itunes.new
+    itunes.music = 'Rock,   pop'
+    assert itunes.music_rock?, "Itunes should have Rock music."
+    assert itunes.music_pop?, "Itunes should have Pop music."
+    assert itunes.save, "Itunes should save!"
+    itunes.reload
+    assert itunes.music_rock?, "Itunes should have Rock music."
+    assert itunes.music_pop?, "Itunes should have Pop music."
   end
 
   def test_should_validate_that_only_elements_from_the_given_enum_are_used_in_the_set
