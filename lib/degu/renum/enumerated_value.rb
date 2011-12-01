@@ -111,7 +111,10 @@ module Degu
             values[index.index]
           else
             name = index.to_s
-            if name =~ /\A[a-z]/
+            case name
+            when /\A(\d+)\Z/
+              return values[$1.to_i]
+            when /\A[a-z]/
               name = name.gsub(/(?:\A|_)(.)/) { $1.upcase }
             end
             with_name(name)

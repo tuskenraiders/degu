@@ -31,6 +31,8 @@ describe "basic enum" do
   it "indexes values" do
     Status[2].should == Status::COMPLETE
     Color[0].should == Color::RED
+    Status['2'].should == Status::COMPLETE
+    Color['0'].should == Color::RED
   end
 
   it "provides index lookup on values" do
