@@ -48,12 +48,12 @@ module Degu
         define_method("#{enum_name}=") do |enum_to_set|
           old_value = self[enum_column]
           enum_resolved = enum_class[enum_to_set]
-          if enum_to_set.nil?
+          if enum_to_set.to_s.strip.empty?
             self[enum_column] = nil
           elsif enum_resolved
             self[enum_column] = enum_resolved.name
           else
-            raise ArgumentError, "could not resolve #{enum_to_set}"
+            raise ArgumentError, "could not resolve #{enum_to_set.inspect}"
           end
           @enum_changed ||= self[enum_column] != old_value
         end
