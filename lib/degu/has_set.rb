@@ -32,7 +32,7 @@ module Degu
 
         define_method("#{set_name}=") do |argument_value|
           self[set_column] = 
-            if argument_value.present?
+            unless argument_value.nil?
               set_elements =
                 if String === argument_value
                   argument_value.split(',').map(&:strip)

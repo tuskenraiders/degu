@@ -145,4 +145,11 @@ class HasSetTest < Test::Unit::TestCase
     assert_equal "drink_wine", Drinks::Wine.field_name
   end
 
+  def test_empty_bitfield
+    party = Party.new :drinks => [ :beer ]
+    assert_equal [ Drinks[:beer] ], party.drinks
+    party.drinks = []
+    assert_equal [], party.drinks
+    assert_equal 0, party.drinks_set
+  end
 end
