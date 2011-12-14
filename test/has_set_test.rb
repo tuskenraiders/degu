@@ -66,6 +66,13 @@ class HasSetTest < Test::Unit::TestCase
   def test_should_set_elements_by_string_names
     person = Person.new(:fullname => "Jessie Summers", :interests => "Dating, Shopping")
     assert_equal [Interests::Dating, Interests::Shopping], person.interests
+    person = Person.new(:fullname => "Jessie Summers", :interests => "")
+    assert_equal [], person.interests
+  end
+
+  def test_should_be_settable_to_nil
+    person = Person.new(:fullname => "Jessie Summers", :interests => nil)
+    assert_equal nil, person.interests
   end
 
   def test_should_set_elements_by_string_name

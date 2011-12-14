@@ -33,15 +33,23 @@ module Degu
         define_method("#{set_name}=") do |argument_value|
           self[set_column] = 
             unless argument_value.nil?
+              invalid_set_elements = []
               set_elements =
                 if String === argument_value
                   argument_value.split(',').map(&:strip)
                 else
                   Array(argument_value)
                 end.map do |set_element|
-                  enum_class[set_element]
+                  if result = enum_class[set_element]
+                    result
+                  else
+                    invalid_set_elements << set_element
+                    nil
+                  end
                 end
-              set_elements.all? or raise ArgumentError, "element #{argument_value.inspect} contains invalid elements"
+              if set_elements.any? { |set_element| set_element.nil? }
+                raise ArgumentError, "element #{argument_value.inspect} contains invalid elements: #{invalid_set_elements.inspect}"
+              end
               value = 0
               set_elements.each do |set_element|
                 mask = 1 << set_element.bitfield_index
