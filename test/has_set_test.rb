@@ -95,7 +95,7 @@ class HasSetTest < Test::Unit::TestCase
 
   def test_should_have_to_s_method
     party = Party.new(:location => "Beach House", :drinks => [Drinks::Beer, Drinks::CubaLibre])
-    assert_equal "beer,cuba_libre", party.drinks.to_s
+    assert_equal "Beer, CubaLibre", party.drinks.to_s
   end
 
   def test_should_accept_enum_class

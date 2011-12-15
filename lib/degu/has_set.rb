@@ -43,7 +43,7 @@ module Degu
           # special to_s method for element-array
           class << set_elements
             def to_s
-              map(&:underscored_name) * ','
+              map(&:name) * ', '
             end
           end
           set_elements
