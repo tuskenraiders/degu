@@ -95,11 +95,20 @@ class HasSetTest < Test::Unit::TestCase
 
   def test_should_have_to_s_method
     party = Party.new(:location => "Beach House", :drinks => [Drinks::Beer, Drinks::CubaLibre])
-    assert_equal "Beer, CubaLibre", party.drinks.to_s
+    assert_equal "beer,cuba_libre", party.drinks.to_s
   end
 
-  def test_should_provide_the_name_of_the_enum_class
+  def test_should_accept_enum_class
     Party.has_set :music, :enum_class => MusicStyles
+
+    party = Party.new(:location => "Penthouse", :music => [MusicStyles::Rock])
+    assert party.save, "Party should save!"
+    party.reload
+    assert party.music_rock?, "Party should have Rock music."
+  end
+
+  def test_should_accept_class_name
+    Party.has_set :music, :class_name => MusicStyles
 
     party = Party.new(:location => "Penthouse", :music => [MusicStyles::Rock])
     assert party.save, "Party should save!"
@@ -143,7 +152,8 @@ class HasSetTest < Test::Unit::TestCase
   end
 
   def test_should_list_all_available_enum_elements
-    assert_equal ["drink_beer", "drink_cuba_libre", "drink_wine"], Party.new.available_drinks
+    assert_equal ["drink_beer", "drink_wine", "drink_cuba_libre"], Party.new.available_drinks
+    assert_equal ["drink_beer", "drink_wine", "drink_cuba_libre"], Party.available_drinks
   end
 
   def test_should_extend_enum_with_fieldname_method

@@ -22,6 +22,7 @@ GemHadar do
   development_dependency 'sqlite3'
   development_dependency 'rspec'
   development_dependency 'ruby-debug'
+  development_dependency 'rcov'
 end
 
 desc 'Run specs and tests'

@@ -5,7 +5,7 @@ require 'active_support'
 require 'active_record'
 module Degu
   module HasSet
-    VERSION = '0.0.4'
+    extend ActiveSupport::Concern
 
     module ClassMethods
       # Use like this:
@@ -14,105 +14,92 @@ module Degu
       #     has_set :interests
       #   end
       def has_set(set_name, options = {})
-
+        set_name_singular = set_name.to_s.singularize
         set_column = options.has_key?(:column_name) ? options[:column_name].to_s : "#{set_name}_bitfield"
 
         begin
-          enum_class = options.has_key?(:enum_class) ? options[:enum_class] : set_name.to_s.camelcase.constantize
+          enum_class = options[:class_name] || options[:enum_class] || set_name.to_s.camelcase.constantize
         rescue NameError => ne
           raise NameError, "There ist no class to take the set entries from (#{ne.message})."
         end
 
-        # Extend enum_class with field_name method
-        enum_class.class_eval <<-EOF
-          def field_name
-            '#{set_name.to_s.singularize}_' + self.name.underscore
-          end
-        EOF
-
         define_method("#{set_name}=") do |argument_value|
-          self[set_column] = 
-            unless argument_value.nil?
-              invalid_set_elements = []
-              set_elements =
-                if String === argument_value
-                  argument_value.split(',').map(&:strip)
-                else
-                  Array(argument_value)
-                end.map do |set_element|
-                  if result = enum_class[set_element]
-                    result
-                  else
-                    invalid_set_elements << set_element
-                    nil
-                  end
-                end
-              if set_elements.any? { |set_element| set_element.nil? }
-                raise ArgumentError, "element #{argument_value.inspect} contains invalid elements: #{invalid_set_elements.inspect}"
-              end
-              value = 0
-              set_elements.each do |set_element|
-                mask = 1 << set_element.bitfield_index
-                if mask & value == mask
-                  next
-                else
-                  value |= mask
-                end
-              end
-              value
+          value = nil
+          unless argument_value.nil?
+            value = 0
+            has_set_coerce_argument_value(enum_class, argument_value).each do |set_element|
+              value |= 1 << set_element.bitfield_index
             end
+          end
+          write_attribute set_column, value
         end
 
         define_method(set_name) do
-          value = self[set_column]
-          case
-          when value.blank?
-            ;;
-          when value.zero?
-            []
-          else
-            set_elements = enum_class.values.select do |enum_element|
-              send("#{set_name.to_s.singularize}_#{enum_element.name.underscore}?")
-            end
-            # special to_s method for element-array
-            class << set_elements
-              def to_s
-                map(&:name) * ', '
-              end
-            end
-            set_elements
+          value = read_attribute(set_column) or return
+          set_elements = enum_class.select do |enum_element|
+            mask = 1 << enum_element.bitfield_index
+            value & mask == mask
           end
+          # special to_s method for element-array
+          class << set_elements
+            def to_s
+              map(&:underscored_name) * ','
+            end
+          end
+          set_elements
         end
 
-        # TODO: This should be a class method
+        class << self; self; end.instance_eval do
+          define_method("available_#{set_name}") do
+            enum_class.underscored_names.map { |name| "#{set_name_singular}_#{name}" }
+          end
+        end
         define_method("available_#{set_name}") do
-          self.methods.grep(/#{set_name.to_s.singularize}_\w+[^\?=]$/).sort.map(&:to_s)
+          enum_class.underscored_names.map { |name| "#{set_name_singular}_#{name}" }
         end
 
-        enum_class.values.each do |enum|
-          define_method("#{set_name.to_s.singularize}_#{enum.name.underscore}?") do
+        enum_class.each do |enum|
+          define_method("#{set_name_singular}_#{enum.underscored_name}?") do
             mask = 1 << enum.bitfield_index
-            self[set_column] & mask == mask
+            read_attribute(set_column) & mask == mask
           end
 
-          alias_method :"#{set_name.to_s.singularize}_#{enum.name.underscore}", :"#{set_name.to_s.singularize}_#{enum.name.underscore}?"
+          alias_method :"#{set_name_singular}_#{enum.underscored_name}", :"#{set_name_singular}_#{enum.underscored_name}?"
 
-          define_method("#{set_name.to_s.singularize}_#{enum.name.underscore}=") do |true_or_false|
+          define_method("#{set_name_singular}_#{enum.underscored_name}=") do |true_or_false|
             mask = 1 << enum.bitfield_index
-            current_value = mask & self[set_column] == mask
+            total_value = read_attribute(set_column) 
+            current_value = mask & total_value == mask
             true_or_false = true  if true_or_false.to_s == "true" || true_or_false.respond_to?(:to_i) && true_or_false.to_i == 1
             true_or_false = false if true_or_false.to_s == "false" || true_or_false.respond_to?(:to_i) && true_or_false.to_i == 0
-
             if current_value != true_or_false
-              true_or_false ? self[set_column] |= mask : self[set_column] &= ~mask
+              write_attribute set_column, true_or_false ? total_value | mask : total_value & ~mask
             end
           end
         end
       end
     end
 
-    def self.included(modul)
-      modul.extend(ClassMethods)
+    module InstanceMethods
+      def has_set_coerce_argument_value(enum_class, argument_value)
+        invalid_set_elements = []
+        set_elements =
+          if String === argument_value
+            argument_value.split(',').map(&:strip)
+          else
+            Array(argument_value)
+          end.map do |set_element|
+            if result = enum_class[set_element]
+              result
+            else
+              invalid_set_elements << set_element
+              nil
+            end
+          end
+        invalid_set_elements.empty? or
+          raise ArgumentError, "element #{argument_value.inspect} contains invalid elements: #{invalid_set_elements.inspect}"
+        set_elements
+      end
     end
   end
 end

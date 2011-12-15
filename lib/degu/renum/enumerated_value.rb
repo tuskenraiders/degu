@@ -25,6 +25,18 @@ module Degu
 
         alias all values
 
+        def names
+          all.map(&:name)
+        end
+
+        def underscored_names
+          all.map(&:underscored_name)
+        end
+
+        def field_names
+          all.map(&:field_name)
+        end
+
         # This class encapsulates an enum field (аctually a method with arity == 0).
         class Field < Struct.new('Field', :name, :options, :block)
           # Returns true if the :default option was given.
@@ -144,6 +156,14 @@ module Degu
       attr_reader :index
 
       alias_method :id, :index
+
+      def underscored_name
+        name.underscore
+      end
+
+      def field_name
+        "#{self.class.name.underscore.singularize}_#{underscored_name}"
+      end
 
       # Creates an enumerated value named +name+ with a unique autoincrementing
       # index number.
