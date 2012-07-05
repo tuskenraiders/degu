@@ -80,26 +80,24 @@ module Degu
       end
     end
 
-    module InstanceMethods
-      def has_set_coerce_argument_value(enum_class, argument_value)
-        invalid_set_elements = []
-        set_elements =
-          if String === argument_value
-            argument_value.split(',').map(&:strip)
+    def has_set_coerce_argument_value(enum_class, argument_value)
+      invalid_set_elements = []
+      set_elements =
+        if String === argument_value
+          argument_value.split(',').map(&:strip)
+        else
+          Array(argument_value)
+        end.map do |set_element|
+          if result = enum_class[set_element]
+            result
           else
-            Array(argument_value)
-          end.map do |set_element|
-            if result = enum_class[set_element]
-              result
-            else
-              invalid_set_elements << set_element
-              nil
-            end
+            invalid_set_elements << set_element
+            nil
           end
-        invalid_set_elements.empty? or
-          raise ArgumentError, "element #{argument_value.inspect} contains invalid elements: #{invalid_set_elements.inspect}"
-        set_elements
-      end
+        end
+      invalid_set_elements.empty? or
+        raise ArgumentError, "element #{argument_value.inspect} contains invalid elements: #{invalid_set_elements.inspect}"
+      set_elements
     end
   end
 end
