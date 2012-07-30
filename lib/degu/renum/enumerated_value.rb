@@ -157,6 +157,8 @@ module Degu
 
       alias_method :id, :index
 
+      alias_method :bitfield_index, :index
+
       def underscored_name
         name.underscore
       end
