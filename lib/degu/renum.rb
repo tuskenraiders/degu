@@ -9,7 +9,7 @@ module Degu
     # Figures out whether the new enumeration will live in Object or the
     # receiving Module, then delegates to EnumeratedValueTypeFactory#create for
     # all the real work.
-    def enum(type_name, values = :defined_in_block, &block)
+    def enum(type_name = nil, values = :defined_in_block, &block)
       nest = self.is_a?(Module) ? self : Object
       EnumeratedValueTypeFactory.create(nest, type_name, values, &block)
     end

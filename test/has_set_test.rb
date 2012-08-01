@@ -1,4 +1,4 @@
-require 'test_helper.rb'
+require 'test_helper'
 
 class HasSetTest < Test::Unit::TestCase
 
@@ -168,5 +168,13 @@ class HasSetTest < Test::Unit::TestCase
     party.drinks = []
     assert_equal [], party.drinks
     assert_equal 0, party.drinks_set
+  end
+
+  def test_adding_to_set_array
+    person = Person.new
+    assert_true person.interests.empty?
+    person.interests << person.available_interests.first
+    assert_false person.interests.empty?
+    assert_equal person.available_interests.first, person.interests.first
   end
 end

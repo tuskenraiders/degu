@@ -6,7 +6,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Florian Frank"]
-  s.date = "2012-07-30"
+  s.date = "2012-08-01"
   s.description = "Library that includes enums, and rails support for enums and bitfield sets."
   s.email = "dev@pkw.de"
   s.extra_rdoc_files = ["README.rdoc", "lib/degu/has_enum.rb", "lib/degu/has_set.rb", "lib/degu/polite.rb", "lib/degu/renum/enumerated_value.rb", "lib/degu/renum/enumerated_value_type_factory.rb", "lib/degu/renum.rb", "lib/degu/rude.rb", "lib/degu/version.rb", "lib/degu.rb"]
@@ -23,24 +23,27 @@ Gem::Specification.new do |s|
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
       s.add_development_dependency(%q<gem_hadar>, ["~> 0.1.8"])
-      s.add_development_dependency(%q<mocha>, [">= 0"])
+      s.add_development_dependency(%q<mocha>, ["~> 0.12.1"])
       s.add_development_dependency(%q<sqlite3>, [">= 0"])
-      s.add_development_dependency(%q<rspec>, [">= 0"])
+      s.add_development_dependency(%q<rspec>, ["~> 2.11.0"])
+      s.add_development_dependency(%q<test-unit>, ["~> 2.5.0"])
       s.add_development_dependency(%q<utils>, [">= 0"])
       s.add_runtime_dependency(%q<activerecord>, ["~> 3.0"])
     else
       s.add_dependency(%q<gem_hadar>, ["~> 0.1.8"])
-      s.add_dependency(%q<mocha>, [">= 0"])
+      s.add_dependency(%q<mocha>, ["~> 0.12.1"])
       s.add_dependency(%q<sqlite3>, [">= 0"])
-      s.add_dependency(%q<rspec>, [">= 0"])
+      s.add_dependency(%q<rspec>, ["~> 2.11.0"])
+      s.add_dependency(%q<test-unit>, ["~> 2.5.0"])
       s.add_dependency(%q<utils>, [">= 0"])
       s.add_dependency(%q<activerecord>, ["~> 3.0"])
     end
   else
     s.add_dependency(%q<gem_hadar>, ["~> 0.1.8"])
-    s.add_dependency(%q<mocha>, [">= 0"])
+    s.add_dependency(%q<mocha>, ["~> 0.12.1"])
     s.add_dependency(%q<sqlite3>, [">= 0"])
-    s.add_dependency(%q<rspec>, [">= 0"])
+    s.add_dependency(%q<rspec>, ["~> 2.11.0"])
+    s.add_dependency(%q<test-unit>, ["~> 2.5.0"])
     s.add_dependency(%q<utils>, [">= 0"])
     s.add_dependency(%q<activerecord>, ["~> 3.0"])
   end

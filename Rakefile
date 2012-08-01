@@ -18,9 +18,10 @@ GemHadar do
 
   dependency  'activerecord', '~> 3.0'
 
-  development_dependency 'mocha'
+  development_dependency 'mocha', '~> 0.12.1'
   development_dependency 'sqlite3'
-  development_dependency 'rspec'
+  development_dependency 'rspec', '~> 2.11.0'
+  development_dependency 'test-unit', '~> 2.5.0'
   development_dependency 'utils'
 end
 

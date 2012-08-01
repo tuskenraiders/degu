@@ -1,10 +1,13 @@
-require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
+require 'spec_helper'
 
 enum :Status, [ :NOT_STARTED, :IN_PROGRESS, :COMPLETE ]
 
 enum :Fuzzy, [ :FooBar, :BarFoo ]
 
 describe "basic enum" do
+  it "creates an empty enum" do
+    enum.should be < Degu::Renum::EnumeratedValue
+  end
 
   it "creates a class for the value type" do
     Status.should be_an_instance_of(Class)

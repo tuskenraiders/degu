@@ -3,6 +3,7 @@ $:.unshift(File.dirname(__FILE__)) unless
 
 require 'active_support'
 require 'active_record'
+
 module Degu
   module HasSet
     extend ActiveSupport::Concern
@@ -59,12 +60,12 @@ module Degu
         end
 
         enum_class.each do |enum|
-          define_method("#{set_name_singular}_#{enum.underscored_name}?") do
+          define_method("#{set_name_singular}_#{enum.underscored_name}") do
             mask = 1 << enum.bitfield_index
             read_attribute(set_column) & mask == mask
           end
 
-          alias_method :"#{set_name_singular}_#{enum.underscored_name}", :"#{set_name_singular}_#{enum.underscored_name}?"
+          alias_method :"#{set_name_singular}_#{enum.underscored_name}?", :"#{set_name_singular}_#{enum.underscored_name}"
 
           define_method("#{set_name_singular}_#{enum.underscored_name}=") do |true_or_false|
             mask = 1 << enum.bitfield_index
