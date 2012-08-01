@@ -20,9 +20,11 @@ module Degu
         end
 
         def create_values(klass, values, &block)
-          setup_for_definition_in_block(klass) if values == :defined_in_block
+          setup_for_definition_in_block(klass) unless values
           klass.class_eval &block if block_given?
-          if values == :defined_in_block
+          if values
+            values.each { |name| klass.const_set(name, klass.new(name)) }
+          else
             begin
               klass.block_defined_values.each do |value_name, init_args, instance_block|
                 value = klass.new(value_name)
@@ -32,10 +34,6 @@ module Degu
               end
             ensure
               teardown_from_definition_in_block(klass)
-            end
-          else
-            values.each do |name|
-              klass.const_set(name, klass.new(name))
             end
           end
           klass.values.freeze

@@ -5,8 +5,20 @@ enum :Status, [ :NOT_STARTED, :IN_PROGRESS, :COMPLETE ]
 enum :Fuzzy, [ :FooBar, :BarFoo ]
 
 describe "basic enum" do
-  it "creates an empty enum" do
+  it "returns an empty enum" do
     enum.should be < Degu::Renum::EnumeratedValue
+  end
+
+  it "returns an anonymous class if type_name is skipped" do
+    result = enum([ :First, :Second ])
+    result.should be < Degu::Renum::EnumeratedValue
+  end
+
+  it "creates a constant for type_name if it was passed" do
+    result = enum(:test_foo1, [ :First, :Second ])
+    TestFoo1.should eq result
+    result = enum('TestFoo2', [ :First, :Second ])
+    TestFoo2.should eq result
   end
 
   it "creates a class for the value type" do
