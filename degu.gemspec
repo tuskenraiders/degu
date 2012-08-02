@@ -6,10 +6,10 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Florian Frank"]
-  s.date = "2012-08-01"
+  s.date = "2012-08-02"
   s.description = "Library that includes enums, and rails support for enums and bitfield sets."
   s.email = "dev@pkw.de"
-  s.extra_rdoc_files = ["README.rdoc", "lib/degu/has_enum.rb", "lib/degu/has_set.rb", "lib/degu/polite.rb", "lib/degu/renum/enumerated_value.rb", "lib/degu/renum/enumerated_value_type_factory.rb", "lib/degu/renum.rb", "lib/degu/rude.rb", "lib/degu/version.rb", "lib/degu.rb"]
+  s.extra_rdoc_files = ["README.rdoc", "lib/degu/has_set.rb", "lib/degu/version.rb", "lib/degu/renum/enumerated_value_type_factory.rb", "lib/degu/renum/enumerated_value.rb", "lib/degu/renum.rb", "lib/degu/rude.rb", "lib/degu/polite.rb", "lib/degu/has_enum.rb", "lib/degu.rb"]
   s.files = [".gitignore", ".travis.yml", "Gemfile", "README.rdoc", "Rakefile", "VERSION", "degu.gemspec", "lib/degu.rb", "lib/degu/has_enum.rb", "lib/degu/has_set.rb", "lib/degu/polite.rb", "lib/degu/renum.rb", "lib/degu/renum/enumerated_value.rb", "lib/degu/renum/enumerated_value_type_factory.rb", "lib/degu/rude.rb", "lib/degu/version.rb", "spec/renum_spec.rb", "spec/spec_helper.rb", "test/has_enum_test.rb", "test/has_set_test.rb", "test/test_helper.rb", "test_helper.rb"]
   s.homepage = "http://github.com/caroo/degu"
   s.rdoc_options = ["--title", "Degu - Library for enums and bitfield sets.", "--main", "README.rdoc"]

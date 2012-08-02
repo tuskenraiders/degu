@@ -173,8 +173,8 @@ class HasSetTest < Test::Unit::TestCase
   def test_adding_to_set_array
     person = Person.new
     assert_true person.interests.empty?
-    person.interests << person.available_interests.first
+    person.interests << Interests::Art
     assert_false person.interests.empty?
-    assert_equal person.available_interests.first, person.interests.first
+    assert_equal Interests::Art, person.interests.first
   end
 end

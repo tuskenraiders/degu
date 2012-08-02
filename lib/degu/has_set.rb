@@ -42,9 +42,18 @@ module Degu
             value & mask == mask
           end
           # special to_s method for element-array
-          class << set_elements
+          model = self
+          class << set_elements; self ; end.class_eval do
             def to_s
               map(&:name) * ', '
+            end
+
+            define_method(:<<) do |element|
+              value = 0
+              model.has_set_coerce_argument_value(enum_class, (model.__send__(set_name) + [ element ]).uniq ).each do |set_element|
+                value |= 1 << set_element.bitfield_index
+              end
+              model.__send__ :write_attribute, set_column, value
             end
           end
           set_elements
