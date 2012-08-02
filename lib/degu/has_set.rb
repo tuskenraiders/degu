@@ -54,6 +54,7 @@ module Degu
                 value |= 1 << set_element.bitfield_index
               end
               model.__send__ :write_attribute, set_column, value
+              model.__send__(set_name)
             end
           end
           set_elements
