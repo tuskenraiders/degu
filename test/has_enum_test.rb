@@ -181,4 +181,13 @@ class HasEnumTest < Test::Unit::TestCase
     assert enum_mixin.callback1_executed
   end
 
+  def test_should_be_able_to_use_integer_columns_for_enums
+    with_integer = ClassWithIntergerColumn.new
+    with_integer.product = Product::Titanium
+    assert_equal 2, with_integer[:product_type]
+
+    with_integer[:product_type] = 0
+    assert_equal Product::Silver, with_integer.product
+  end
+
 end
