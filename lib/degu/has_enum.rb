@@ -70,9 +70,7 @@ module Degu
 
         define_method("#{enum_column}_check_for_valid_type_of_enum") do
           return true if self[enum_column].nil? || self[enum_column].to_s.empty?
-          begin
-            enum_class.const_get(self[enum_column])
-          rescue NameError => e
+          unless enum_class[self[enum_column]].present?
             self.errors.add(enum_column.to_sym, "Wrong type '#{self[enum_column]}' for enum '#{enum_name}'")
             return false
           end
