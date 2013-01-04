@@ -16,7 +16,6 @@ module Degu
       def has_enum(enum_name, options={})
 
         enum_column = options.has_key?(:column_name) ? options[:column_name].to_s : "#{enum_name}_type"
-        column_type = ((column_definition = columns_hash[enum_column]) and column_definition.type)
 
         self.send("validate", "#{enum_column}_check_for_valid_type_of_enum")
 
@@ -52,6 +51,7 @@ module Degu
           if enum_to_set.to_s.strip.empty?
             self[enum_column] = nil
           elsif enum_resolved
+            column_type = ((column_definition = self.class.columns_hash[enum_column]) and column_definition.type)
             self[enum_column] = case column_type
             when :integer
               enum_resolved.index
