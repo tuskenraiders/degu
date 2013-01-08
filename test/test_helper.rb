@@ -22,6 +22,11 @@ def setup_db
         t.column :updated_at, :datetime
       end
 
+      create_table :class_with_interger_columns do |t|
+        t.column :title, :string
+        t.column :product_type, :integer
+      end
+
       create_table :class_with_custom_name_enums do |t|
         t.column :title, :string
         t.column :product_enum, :string
@@ -133,6 +138,10 @@ end
 
 class Itunes < ActiveRecord::Base
   has_set :music, :enum_class => MusicStyles
+end
+
+class ClassWithIntergerColumn < ActiveRecord::Base
+  has_enum :product
 end
 
 teardown_db # And drop them right afterwards

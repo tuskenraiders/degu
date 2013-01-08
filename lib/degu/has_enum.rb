@@ -32,7 +32,7 @@ module Degu
 
         define_method("#{enum_name}") do
           begin
-            return self[enum_column].present? ? enum_class.const_get(self[enum_column]) : nil
+            return self[enum_column].present? ? enum_class[self[enum_column]] : nil
           rescue NameError => e
             return nil
           end
@@ -51,7 +51,13 @@ module Degu
           if enum_to_set.to_s.strip.empty?
             self[enum_column] = nil
           elsif enum_resolved
-            self[enum_column] = enum_resolved.name
+            column_type = ((column_definition = self.class.columns_hash[enum_column]) and column_definition.type)
+            self[enum_column] = case column_type
+            when :integer
+              enum_resolved.index
+            else
+              enum_resolved.name
+            end
           else
             raise ArgumentError, "could not resolve #{enum_to_set.inspect}"
           end
@@ -64,9 +70,7 @@ module Degu
 
         define_method("#{enum_column}_check_for_valid_type_of_enum") do
           return true if self[enum_column].nil? || self[enum_column].to_s.empty?
-          begin
-            enum_class.const_get(self[enum_column])
-          rescue NameError => e
+          unless enum_class[self[enum_column]].present?
             self.errors.add(enum_column.to_sym, "Wrong type '#{self[enum_column]}' for enum '#{enum_name}'")
             return false
           end
