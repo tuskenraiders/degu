@@ -68,6 +68,12 @@ module Degu
           !!@enum_changed
         end
 
+        enum_class.each do |enum|
+          define_method("#{enum_name}_#{enum.underscored_name}?") do
+            __send__(enum_name.to_sym) == enum
+          end
+        end
+
         define_method("#{enum_column}_check_for_valid_type_of_enum") do
           return true if self[enum_column].nil? || self[enum_column].to_s.empty?
           unless enum_class[self[enum_column]].present?

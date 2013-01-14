@@ -130,6 +130,15 @@ class HasEnumTest < Test::Unit::TestCase
     assert product_enum.product_has_changed?
   end
 
+  def test_should_define_question_mark_methods_for_all_enum_values
+    product_enum = ClassWithEnum.new(:product => Product::Silver)
+    assert_equal true,  product_enum.product_silver?
+    assert_equal false, product_enum.product_gold?
+    product_enum.product = Product::Gold
+    assert_equal false, product_enum.product_silver?
+    assert_equal true,  product_enum.product_gold?
+  end
+
   def test_should_not_fail_if_no_enum_was_set_yet
     enum_mixin = ClassWithEnum.new
     assert_nothing_raised(TypeError) { enum_mixin.product }
