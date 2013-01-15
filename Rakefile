@@ -7,7 +7,7 @@ GemHadar do
   name        'degu'
   author      'Florian Frank'
   email       'dev@pkw.de'
-  homepage    "http://github.com/caroo/#{name}"
+  homepage    "http://github.com/tuskenraiders/#{name}"
   summary     'Library for enums and bitfield sets.'
   description 'Library that includes enums, and rails support for enums and bitfield sets.'
   test_dir    'test'
