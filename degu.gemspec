@@ -6,7 +6,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Florian Frank"]
-  s.date = "2013-01-14"
+  s.date = "2013-01-15"
   s.description = "Library that includes enums, and rails support for enums and bitfield sets."
   s.email = "dev@pkw.de"
   s.extra_rdoc_files = ["README.rdoc", "lib/degu.rb", "lib/degu/has_enum.rb", "lib/degu/has_set.rb", "lib/degu/polite.rb", "lib/degu/renum.rb", "lib/degu/renum/enumerated_value.rb", "lib/degu/renum/enumerated_value_type_factory.rb", "lib/degu/rude.rb", "lib/degu/version.rb"]
