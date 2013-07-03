@@ -14,7 +14,7 @@ GemHadar do
   test_files  Dir['test/**/*_test.rb']
   spec_dir    'spec'
   ignore      '.*.sw[pon]', 'pkg', 'Gemfile.lock', '.rvmrc', 'coverage', '.DS_Store', '.ruby-gemset', '.ruby-version'
-  readme      'README.rdoc'
+  readme      'README.md'
 
   dependency  'activerecord', '>= 3.0', '< 5.0'
 
