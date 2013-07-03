@@ -1,59 +1,57 @@
 require 'degu'
 require 'test/unit'
-require 'mocha'
+require 'mocha/setup'
 require 'active_record'
 
 ActiveRecord::Base.establish_connection(:adapter => "sqlite3", :database => ":memory:")
 ActiveRecord::Migration.verbose = false
 
 def setup_db
-  ActiveRecord::Base.silence do
-    ActiveRecord::Schema.define(:version => 1) do
-      create_table :class_with_enums do |t|
-        t.column :title, :string
-        t.column :product_type, :string
-        t.column :created_at, :datetime
-        t.column :updated_at, :datetime
-      end
+  ActiveRecord::Schema.define(:version => 1) do
+    create_table :class_with_enums do |t|
+      t.column :title, :string
+      t.column :product_type, :string
+      t.column :created_at, :datetime
+      t.column :updated_at, :datetime
+    end
 
-      create_table :class_without_enums do |t|
-        t.column :title, :string
-        t.column :created_at, :datetime
-        t.column :updated_at, :datetime
-      end
+    create_table :class_without_enums do |t|
+      t.column :title, :string
+      t.column :created_at, :datetime
+      t.column :updated_at, :datetime
+    end
 
-      create_table :class_with_interger_columns do |t|
-        t.column :title, :string
-        t.column :product_type, :integer
-      end
+    create_table :class_with_interger_columns do |t|
+      t.column :title, :string
+      t.column :product_type, :integer
+    end
 
-      create_table :class_with_custom_name_enums do |t|
-        t.column :title, :string
-        t.column :product_enum, :string
-        t.column :created_at, :datetime
-        t.column :updated_at, :datetime
-      end
+    create_table :class_with_custom_name_enums do |t|
+      t.column :title, :string
+      t.column :product_enum, :string
+      t.column :created_at, :datetime
+      t.column :updated_at, :datetime
+    end
 
-      create_table :people do |t|
-        t.string  :fullname
-        t.integer :interests_bitfield, :default => 0
-      end
+    create_table :people do |t|
+      t.string  :fullname
+      t.integer :interests_bitfield, :default => 0
+    end
 
-      create_table :punks do |t|
-        t.string :fullname
-        t.string :bad_habits_bitfield
-      end
+    create_table :punks do |t|
+      t.string :fullname
+      t.string :bad_habits_bitfield
+    end
 
-      create_table :parties do |t|
-        t.string  :location
-        t.integer :drinks_set, :default => 0
-        t.integer :music_bitfield, :default => 0
-      end
+    create_table :parties do |t|
+      t.string  :location
+      t.integer :drinks_set, :default => 0
+      t.integer :music_bitfield, :default => 0
+    end
 
-      create_table :itunes do |t|
-        t.string  :location
-        t.integer :music_bitfield
-      end
+    create_table :itunes do |t|
+      t.string  :location
+      t.integer :music_bitfield
     end
   end
 end

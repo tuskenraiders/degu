@@ -1,4 +1,5 @@
 = Degu
+![Build status](https://travis-ci.org/tuskenraiders/degu.png)
 
 Degu bundles the renum Enumeration implementation with the has_enum and has_set
 rails plugins.
@@ -37,15 +38,15 @@ Renum allows you to do things like this:
 Giving you something that satisfies this spec, plus a bit more:
 
     describe "enum" do
-      
+
       it "creates a class for the value type" do
         Status.class.should == Class
       end
-      
+
       it "makes each value an instance of the value type" do
         Status::NOT_STARTED.class.should == Status
       end
-      
+
       it "exposes array of values" do
         Status.values.should == [Status::NOT_STARTED, Status::IN_PROGRESS, Status::COMPLETE]
       end
@@ -53,31 +54,31 @@ Giving you something that satisfies this spec, plus a bit more:
       it "provides an alternative means of declaring values where extra information can be provided for initialization" do
         Size::Small.description.should == "Really really tiny"
       end
-      
+
       it "enumerates over values" do
         Status.map {|s| s.name}.should == %w[NOT_STARTED IN_PROGRESS COMPLETE]
       end
-      
+
       it "indexes values" do
         Status[2].should == Status::COMPLETE
       end
-      
+
       it "provides index lookup on values" do
         Status::IN_PROGRESS.index.should == 1
       end
-      
+
       it "provides a reasonable to_s for values" do
         Status::NOT_STARTED.to_s.should == "Status::NOT_STARTED"
       end
-      
+
       it "makes values comparable" do
         Status::NOT_STARTED.should < Status::COMPLETE
       end
-      
+
       it "allows enums to be nested in other modules or classes" do
         MyNamespace::FooValue::Bar.class.should == MyNamespace::FooValue
       end
-      
+
     end
 
 === Rails[http://www.rubyonrails.com/] Integration
@@ -91,18 +92,18 @@ constantize_attribute plugin
         New()
         Used()
         Salvage(true)
-        
+
         def init(warn = false)
           @warn = warn
         end
-        
+
         def requires_warning_buyer?
           @warn
         end
       end
-      
+
       constantize_attribute :status
-      
+
     end
 
     v = Vehicle.create! :status => Vehicle::Status::New
@@ -121,7 +122,7 @@ constantize_attribute plugin
 
 === License
 
-This code is free to use under the terms of the MIT license. 
+This code is free to use under the terms of the MIT license.
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
