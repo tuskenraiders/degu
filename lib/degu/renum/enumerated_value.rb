@@ -17,8 +17,8 @@ module Degu
         extend Forwardable
 
         ##
-        # Adds a enum definition extension method to be able to define methods on newly created enum and use it on
-        #  definition of enumeration values.
+        # Adds an enum definition extension method to be able to define methods on newly created enum and use them
+        #  inside the definition of enumeration values.
         #  This method accepts both module names and block to extend the enum
         #  Use it as first expression after the `enum :MyEnumName do` enum definition
         def definition_extension(*names, &block)
