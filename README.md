@@ -83,6 +83,30 @@ end
 ```
 If your enumeration holds more than just a couple of attributes, the init method can become messy very quickly.
 So, we have extended the original renum gem to ease the process of value definition.
+```ruby
+enum :Planet do
+  field :mass
+  field :radius
+  field :satelites, default: 0
+  field :human_name do |planet|
+    planet.name.humanize
+  end
+  
+  MERCURY(mass: 3.303e+23, radius: 2.4397e6)
+  VENUS(mass: 4.869e+24, radius: 6.0518e6)
+  EARTH(mass: 5.976e+24, radius: 6.37814e6, satelites: 1)
+  MARS(mass: 6.421e+23, radius: 3.3972e6,  satelites: 2)
+  JUPITER(mass: 1.9e+27,   radius: 7.1492e7,  satelites: 67)
+  SATURN(mass: 5.688e+26, radius: 6.0268e7,  satelites: 62)
+  URANUS(mass: 8.686e+25, radius: 2.5559e7,  satelites: 27)
+  NEPTUNE(mass: 1.024e+26, radius: 2.4746e7,  satelites: 13)
+  
+  def has_satelites?
+    satelites > 0
+  end
+end
+```
+Now, you are able to define your enumeration value attributes using the field method
 
 ### Renum License
 
