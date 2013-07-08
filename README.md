@@ -106,7 +106,42 @@ enum :Planet do
   end
 end
 ```
-Now, you are able to define your enumeration value attributes using the field method
+Now, you are able to define your enumeration value attributes using the `field` method, which generates
+`attribute_reader` for you. You can also specify a default value for this field using either the `:default`-key or
+a block, if you need some calculation.
+Now, you have a couple of methods to play with:
+```ruby
+# Enums implement Enumerable
+Planet.map(&:human_name) 
+ => ["Mercury", "Venus", "Earth", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune"]
+
+# access all enum value names
+Planet.names
+ => ["MERCURY", "VENUS", "EARTH", "MARS", "JUPITER", "SATURN", "URANUS", "NEPTUNE"]
+
+# use the names as keys
+Planet.underscored_names
+ => ["mercury", "venus", "earth", "mars", "jupiter", "saturn", "uranus", "neptune"]
+ 
+Planet.field_names
+ => ["planet_mercury", "planet_venus", "planet_earth", "planet_mars", "planet_jupiter", "planet_saturn", "planet_uranus", "planet_neptune"]
+
+Planet.values # returns all defined enum values as an array
+
+# Use [] method to retrieve the values
+Planet[2]
+ => #<Planet:0x007ff2aa068bd8 @name="EARTH", @index=2, @mass=5.976e+24, @radius=6378140.0, @satelites=1, @human_name="Earth">
+
+Planet['MARS']
+ => #<Planet:0x007ff2aa0686d8 @name="MARS", @index=3, @mass=6.421e+23, @radius=3397200.0, @satelites=2, @human_name="Mars">
+ 
+# Enums implement JSON load/dump API
+serialized = Planet.to_json
+ => "[{\"json_class\":\"Planet\",\"name\":\"MERCURY\"},{\"json_class\":\"Planet\",\"name\":\"VENUS\"},...]"
+
+JSON.load(serialized) == Planet.values
+ => true
+```
 
 ### Renum License
 
