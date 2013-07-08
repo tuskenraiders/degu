@@ -89,17 +89,17 @@ enum :Planet do
   field :radius
   field :satelites, default: 0
   field :human_name do |planet|
-    planet.name.humanize
+    I18n.translate "enum.planet.#{planet.underscored_name}"
   end
   
-  MERCURY(mass: 3.303e+23, radius: 2.4397e6)
-  VENUS(mass: 4.869e+24, radius: 6.0518e6)
-  EARTH(mass: 5.976e+24, radius: 6.37814e6, satelites: 1)
-  MARS(mass: 6.421e+23, radius: 3.3972e6,  satelites: 2)
-  JUPITER(mass: 1.9e+27,   radius: 7.1492e7,  satelites: 67)
-  SATURN(mass: 5.688e+26, radius: 6.0268e7,  satelites: 62)
-  URANUS(mass: 8.686e+25, radius: 2.5559e7,  satelites: 27)
-  NEPTUNE(mass: 1.024e+26, radius: 2.4746e7,  satelites: 13)
+  Mercury(mass: 3.303e+23, radius: 2.4397e6)
+  Venus(mass: 4.869e+24, radius: 6.0518e6)
+  Earth(mass: 5.976e+24, radius: 6.37814e6, satelites: 1)
+  Mars(mass: 6.421e+23, radius: 3.3972e6,  satelites: 2)
+  Jupiter(mass: 1.9e+27,   radius: 7.1492e7,  satelites: 67)
+  Saturn(mass: 5.688e+26, radius: 6.0268e7,  satelites: 62)
+  Uranus(mass: 8.686e+25, radius: 2.5559e7,  satelites: 27)
+  Neptune(mass: 1.024e+26, radius: 2.4746e7,  satelites: 13)
   
   def has_satelites?
     satelites > 0
@@ -117,7 +117,7 @@ Planet.map(&:human_name)
 
 # access all enum value names
 Planet.names
- => ["MERCURY", "VENUS", "EARTH", "MARS", "JUPITER", "SATURN", "URANUS", "NEPTUNE"]
+ => ["Mercury", "Venus", "Earth", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune"]
 
 # use the names as keys
 Planet.underscored_names
@@ -130,17 +130,21 @@ Planet.values # returns all defined enum values as an array
 
 # Use [] method to retrieve the values
 Planet[2]
- => #<Planet:0x007ff2aa068bd8 @name="EARTH", @index=2, @mass=5.976e+24, @radius=6378140.0, @satelites=1, @human_name="Earth">
+ => #<Planet:0x007ff2aa068bd8 @name="Earth", @index=2, @mass=5.976e+24, @radius=6378140.0, @satelites=1, @human_name="Earth">
 
 Planet['MARS']
- => #<Planet:0x007ff2aa0686d8 @name="MARS", @index=3, @mass=6.421e+23, @radius=3397200.0, @satelites=2, @human_name="Mars">
- 
+ => #<Planet:0x007ff2aa0686d8 @name="Mars", @index=3, @mass=6.421e+23, @radius=3397200.0, @satelites=2, @human_name="Mars">
+
+Planet[:venus]
+ => #<Planet:0x007fe4227d9250 @name="Venus", @index=1, @mass=4.869e+24, @radius=6051800.0, @satelites=0, @human_name="Venus">
+
 # Enums implement JSON load/dump API
 serialized = Planet.to_json
- => "[{\"json_class\":\"Planet\",\"name\":\"MERCURY\"},{\"json_class\":\"Planet\",\"name\":\"VENUS\"},...]"
+ => "[{\"json_class\":\"Planet\",\"name\":\"Mercury\"},{\"json_class\":\"Planet\",\"name\":\"Venus\"},...]"
 
 JSON.load(serialized) == Planet.values
  => true
+
 ```
 
 ### Renum License
