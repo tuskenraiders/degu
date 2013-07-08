@@ -252,7 +252,7 @@ module Degu
           obj.as_json(opts)
         end
 
-        def to_json(opts, *a)
+        def to_json(opts = {}, *a)
           obj = as_json(opts)
           opts.respond_to?(:fields) and opts.delete(:fields)
           obj.to_json(opts, *a)
