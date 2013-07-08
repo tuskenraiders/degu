@@ -139,12 +139,66 @@ Planet[:venus]
  => #<Planet:0x007fe4227d9250 @name="Venus", @index=1, @mass=4.869e+24, @radius=6051800.0, @satelites=0, @human_name="Venus">
 
 # Enums implement JSON load/dump API
-serialized = Planet.to_json
- => "[{\"json_class\":\"Planet\",\"name\":\"Mercury\"},{\"json_class\":\"Planet\",\"name\":\"Venus\"},...]"
+serialized = Planet::Earth.to_json({})
+ => "{\"json_class\":\"Planet\",\"name\":\"Earth\"}"
 
-JSON.load(serialized) == Planet.values
- => true
+JSON.load serialized
+ => #<Planet:0x007fe4227e1d38 @name="Earth", @index=2, @mass=5.976e+24, @radius=6378140.0, @satelites=1, @human_name="Earth">
 
+# Because enums are static by their nature, it is sufficient to serialize just the name of the enum value.
+# If you want to serialize the fields also, you can specify the field names to serialize (or just true for all fields)
+Planet::Earth.to_json fields: [:name, :satelites]
+ => "{\"json_class\":\"Planet\",\"name\":\"Earth\",\"satelites\":1}"
+ 
+Planet::Earth.to_json fields: true
+ => "{\"json_class\":\"Planet\",\"name\":\"Earth\",\"mass\":5.976e+24,\"radius\":6378140.0,\"satelites\":1,\"human_name\":\"Earth\"}" 
+```
+
+### Rails integration
+To use enum values as ActiveRecord attributes we integrated the [has_enum](https://github.com/caroo/has_enum) and
+[has_set](https://github.com/caroo/has_set) plugins, originally developed by [galaxycats](https://github.com/galaxycats).
+
+#### has_enum
+The has_enum extension provides an association with an enumeration class which requires the renum gem.
+You have to make sure to have a column in your database table to store the string representation
+of the associated enum instance. The plugin will look by default for a column named like the enum
+itself plus the "_type" suffix.
+```ruby
+
+# Define the Enum-Class
+enum :CustomerState do
+  field :monthly_due
+  
+  Free(montly_due: 0)
+  Basic(monthly_due: 5.95)
+  Premium(monthly_due: 19.95)
+  
+end
+
+# Class that has an Enumartion associated
+class Customer < ActiveRecord::Base
+  has_enum :customer_state # needs customer_state_type column in database
+end
+
+customer = Customer.new
+
+# Before setting any enum
+customer.customer_state # => nil
+customer.customer_state_type # => ""
+
+customer.customer_state = CustomerState::Premium
+customer.customer_state # => CustomerState::Premium
+customer.customer_state_type # => "Premium"
+customer.customer_state_has_changed? # => true
+```
+`has_enum` method accepts following attributes:
+- `column_name` to specify a different column name to store the enum values
+- `class_name` to specify a different enum class
+
+```ruby
+class Customer
+  has_enum :customer_state, class_name: 'UserState', column_name: 'state_type'
+end
 ```
 
 ### Renum License
