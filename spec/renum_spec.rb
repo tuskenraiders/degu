@@ -279,3 +279,38 @@ if defined?(::JSON)
     end
   end
 end
+
+module ExtensionA
+  def a
+    'a_set_via_extension'
+  end
+end
+
+module ExtensionB
+  def b
+    'b_set_via_extension'
+  end
+end
+
+enum :Foo3 do
+  definition_extension ExtensionA, ExtensionB do
+    def c
+      'c_set_via_extension'
+    end
+  end
+
+  field :set_per_extension
+
+  Bar(:set_per_extension => a)
+  Baz(:set_per_extension => b)
+  Bang(:set_per_extension => c)
+end
+
+describe "definition extensions included as models and block to use inside of the definition" do
+  it "can use methods defined inside of definition extension modules" do
+    expect(Foo3::Bar.set_per_extension).to eq 'a_set_via_extension'
+    expect(Foo3::Baz.set_per_extension).to eq 'b_set_via_extension'
+    expect(Foo3::Bang.set_per_extension).to eq 'c_set_via_extension'
+  end
+
+end

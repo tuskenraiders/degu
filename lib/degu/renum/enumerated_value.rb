@@ -16,6 +16,21 @@ module Degu
         include Enumerable
         extend Forwardable
 
+        ##
+        # Adds an enum definition extension method to be able to define methods on newly created enum and use them
+        #  inside the definition of enumeration values.
+        #  This method accepts both module names and block to extend the enum
+        #  Use it as first expression after the `enum :MyEnumName do` enum definition
+        def definition_extension(*names, &block)
+          eigenclass = class << self; self; end
+          unless names.empty?
+            names.each do |name|
+              eigenclass.__send__(:include, name)
+            end
+          end
+          eigenclass.send(:class_eval, &block) if block
+        end
+
         def_delegators :values, :first, :last, :each
 
         # Returns an array of values in the order they're declared.
@@ -237,7 +252,7 @@ module Degu
           obj.as_json(opts)
         end
 
-        def to_json(opts, *a)
+        def to_json(opts = {}, *a)
           obj = as_json(opts)
           opts.respond_to?(:fields) and opts.delete(:fields)
           obj.to_json(opts, *a)

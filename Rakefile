@@ -7,16 +7,16 @@ GemHadar do
   name        'degu'
   author      'Florian Frank'
   email       'dev@pkw.de'
-  homepage    "http://github.com/tuskenraiders/#{name}"
+  homepage    "https://github.com/tuskenraiders/#{name}"
   summary     'Library for enums and bitfield sets.'
   description 'Library that includes enums, and rails support for enums and bitfield sets.'
   test_dir    'test'
   test_files  Dir['test/**/*_test.rb']
   spec_dir    'spec'
-  ignore      '.*.sw[pon]', 'pkg', 'Gemfile.lock', '.rvmrc', 'coverage', '.DS_Store'
-  readme      'README.rdoc'
+  ignore      '.*.sw[pon]', 'pkg', 'Gemfile.lock', '.rvmrc', 'coverage', '.DS_Store', '.ruby-gemset', '.ruby-version'
+  readme      'README.md'
 
-  dependency  'activerecord', '~> 3.0'
+  dependency  'activerecord', '>= 3.0', '< 5.0'
 
   development_dependency 'mocha'
   development_dependency 'sqlite3'

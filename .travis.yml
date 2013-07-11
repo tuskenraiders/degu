@@ -19,5 +19,6 @@ matrix:
     - rvm: jruby-19mode
     - rvm: rbx-18mode
     - rvm: rbx-19mode
+    - rvm: ruby-head #https://github.com/travis-ci/travis-ci/issues/1195
 
 script: "bundle exec rake"
