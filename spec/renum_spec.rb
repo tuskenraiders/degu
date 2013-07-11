@@ -127,7 +127,7 @@ describe "enum with no values array and values declared in the block" do
   end
 
   it "responds as expected to arbitrary method calls, in spite of using method_missing for value definition" do
-    lambda { Size.ExtraLarge() }.should raise_error(NoMethodError)
+    expect { Size.ExtraLarge() }.to raise_error(NoMethodError)
   end
 
   it "supports there being no extra data and no init() method defined, if you don't need them" do
@@ -170,12 +170,12 @@ describe "an enum with instance-specific method definitions" do
   end
 
   it "uses the implementation given at the top level if no alternate definition is given for an instance" do
-    lambda { Rating::NotRated.description }.should raise_error(NotImplementedError)
+    expect { Rating::NotRated.description }.to raise_error(NotImplementedError)
   end
 
   it "allows definition of a method on just one instance" do
     Rating::ThumbsUp.thumbs_up_only_method.should == "this method is only defined on ThumbsUp"
-    lambda { Rating::NotRated.thumbs_up_only_method }.should raise_error(NoMethodError)
+    expect { Rating::NotRated.thumbs_up_only_method }.to raise_error(NoMethodError)
   end
 end
 
@@ -196,15 +196,15 @@ modify_frozen_error =
 
 describe "prevention of subtle and annoying bugs" do
   it "prevents you modifying the values array" do
-    lambda { Color.values << 'some crazy value' }.should raise_error(modify_frozen_error, /can't modify frozen/)
+    expect { Color.values << 'some crazy value' }.to raise_error(modify_frozen_error, /can't modify frozen/)
   end
 
   it "prevents you modifying the name hash" do
-    lambda { Color.values_by_name['MAGENTA'] = 'some crazy value' }.should raise_error(modify_frozen_error, /can't modify frozen/)
+    expect { Color.values_by_name['MAGENTA'] = 'some crazy value' }.to raise_error(modify_frozen_error, /can't modify frozen/)
   end
 
   it "prevents you modifying the name of a value" do
-    lambda { Color::RED.name << 'dish-Brown' }.should raise_error(modify_frozen_error, /can't modify frozen/)
+    expect { Color::RED.name << 'dish-Brown' }.to raise_error(modify_frozen_error, /can't modify frozen/)
   end
 end
 
