@@ -4,6 +4,10 @@ enum :Status, [ :NOT_STARTED, :IN_PROGRESS, :COMPLETE ]
 
 enum :Fuzzy, [ :FooBar, :BarFoo ]
 
+class RenumNameTest < ActiveRecord::Base
+  renum :RenumTest, [ :Foo, :Bar ]
+end
+
 describe "basic enum" do
 
   it "creates a class for the value type" do
