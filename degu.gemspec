@@ -28,7 +28,6 @@ Gem::Specification.new do |s|
       s.add_development_dependency(%q<mocha>, [">= 0"])
       s.add_development_dependency(%q<sqlite3>, [">= 0"])
       s.add_development_dependency(%q<rspec>, [">= 0"])
-      s.add_development_dependency(%q<utils>, [">= 0"])
       s.add_runtime_dependency(%q<activerecord>, ["< 5.0", ">= 3.0"])
     else
       s.add_dependency(%q<gem_hadar>, ["~> 1.0.0"])
@@ -36,7 +35,6 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<mocha>, [">= 0"])
       s.add_dependency(%q<sqlite3>, [">= 0"])
       s.add_dependency(%q<rspec>, [">= 0"])
-      s.add_dependency(%q<utils>, [">= 0"])
       s.add_dependency(%q<activerecord>, ["< 5.0", ">= 3.0"])
     end
   else
@@ -45,7 +43,6 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<mocha>, [">= 0"])
     s.add_dependency(%q<sqlite3>, [">= 0"])
     s.add_dependency(%q<rspec>, [">= 0"])
-    s.add_dependency(%q<utils>, [">= 0"])
     s.add_dependency(%q<activerecord>, ["< 5.0", ">= 3.0"])
   end
 end
