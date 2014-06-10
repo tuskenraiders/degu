@@ -23,19 +23,6 @@ module Degu
           raise NameError, "There ist no class to take the set entries from (#{ne.message})."
         end
 
-        define_method :read_set_attribute do |attribute_name|
-          value = read_attribute(attribute_name)
-          column_type = ((column_definition = self.class.columns_hash[set_column]) and column_definition.type)
-          value = value.to_i(10) if column_type == :string
-          value
-        end
-
-        define_method :write_set_attribute do |attribute_name, value|
-          column_type = ((column_definition = self.class.columns_hash[set_column]) and column_definition.type)
-          value = value.to_s(10) if column_type == :string
-          write_attribute(attribute_name, value)
-        end
-
         define_method("#{set_name}=") do |argument_value|
           value = nil
           unless argument_value.nil?
@@ -93,6 +80,34 @@ module Degu
       end
     end
 
+    ##
+    # Just a small wrapper about the `ActiveRecord::Base#read_attribute` method, which also checks the type
+    #  of the column and converts the value to an `Integer` if `String` is given.
+    def read_set_attribute(attribute_name)
+      value = read_attribute(attribute_name)
+      column_type = ((column_definition = self.class.columns_hash[attribute_name.to_s]) and column_definition.type)
+      value = value.to_i(10) if column_type == :string
+      value
+    end
+
+    ##
+    # Just a small wrapper about the `ActiveRecord::Base#write_attribute` method, which also checks the type
+    #  of the column and converts the value to an `String` if `String` is the column type. This is needed because
+    #  implicit conversion produces something like `3.4532454354325645e+17` instead of an `integer`
+    def write_set_attribute(attribute_name, value)
+      column_type = ((column_definition = self.class.columns_hash[attribute_name.to_s]) and column_definition.type)
+      value = value.to_s(10) if column_type == :string
+      write_attribute(attribute_name, value)
+    end
+
+    ##
+    # Understands the arguments as the list of enum values
+    #  The argument value can be
+    #    - a `string` of enum values joined by a comma
+    #    - an enum constant
+    #    - a `symbol` which resolves to the enum constant
+    #    - an `integer` as the index of the enum class
+    #  If you have just 1 value, you do not need to enclose it in an `Array`
     def has_set_coerce_argument_value(enum_class, argument_value)
       invalid_set_elements = []
       set_elements =
