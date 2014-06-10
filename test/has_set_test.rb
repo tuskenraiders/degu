@@ -169,4 +169,29 @@ class HasSetTest < Test::Unit::TestCase
     assert_equal [], party.drinks
     assert_equal 0, party.drinks_set
   end
+
+  def test_should_allow_very_large_datasets_using_string_as_column
+    instance = ClassWithLargeDataset.new :dataset => Dataset.all
+    assert_equal true, instance.save
+    instance.reload
+    assert_equal Dataset.all, instance.dataset
+    assert instance.dataset_set_member1
+    instance.dataset_set_member0 = false
+    instance.dataset_set_member64 = false
+    assert instance.save
+    instance.reload
+    assert_equal false, instance.dataset_set_member0
+    assert_equal false, instance.dataset_set_member64
+
+    instance.dataset = 'SetMember3, SetMember7, SetMember12'
+    instance.save
+    instance.reload
+    assert_equal [Dataset::SetMember3, Dataset::SetMember7, Dataset::SetMember12], instance.dataset
+  end
+
+  def test_read_set_attribute_works_with_two_enums
+    instance = TwoEnumsClass.new :drinks => Drinks.all, :dataset => Dataset.first
+    assert_equal Drinks.all, instance.drinks
+    assert_equal [Dataset.first], instance.dataset
+  end
 end

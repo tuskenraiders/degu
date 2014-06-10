@@ -53,6 +53,15 @@ def setup_db
       t.string  :location
       t.integer :music_bitfield
     end
+
+    create_table :class_with_large_datasets do |t|
+      t.string :dataset_bitfield
+    end
+
+    create_table :two_enums_classes do |t|
+      t.integer :drinks_bitfield, :default => 0
+      t.string :dataset_bitfield, :default => '0'
+    end
   end
 end
 
@@ -105,6 +114,12 @@ enum :Drinks do
   end
 end
 
+enum :Dataset do
+  65.times do |i|
+    __send__("SetMember#{i}", {})
+  end
+end
+
 
 setup_db # Init the database for class creation
 
@@ -140,6 +155,15 @@ end
 
 class ClassWithIntergerColumn < ActiveRecord::Base
   has_enum :product
+end
+
+class ClassWithLargeDataset < ActiveRecord::Base
+  has_set :dataset
+end
+
+class TwoEnumsClass < ActiveRecord::Base
+  has_set :drinks
+  has_set :dataset
 end
 
 teardown_db # And drop them right afterwards
