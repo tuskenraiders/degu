@@ -25,14 +25,20 @@ module Degu
 
         define_method :read_set_attribute do |attribute_name|
           value = read_attribute(attribute_name)
-          column_type = ((column_definition = self.class.columns_hash[set_column]) and column_definition.type)
-          value = value.to_i(10) if column_type == :string
+          if column_definition = self.class.columns_hash[set_column] and
+            column_type = column_definition.type and column_type == :string
+          then
+            value = value.to_i(10)
+          end
           value
         end
 
         define_method :write_set_attribute do |attribute_name, value|
-          column_type = ((column_definition = self.class.columns_hash[set_column]) and column_definition.type)
-          value = value.to_s(10) if column_type == :string
+          if column_definition = self.class.columns_hash[set_column] and
+            column_type = column_definition.type and column_type == :string
+          then
+            value = value.to_s(10)
+          end
           write_attribute(attribute_name, value)
         end
 
