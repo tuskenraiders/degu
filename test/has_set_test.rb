@@ -188,4 +188,10 @@ class HasSetTest < Test::Unit::TestCase
     instance.reload
     assert_equal [Dataset::SetMember3, Dataset::SetMember7, Dataset::SetMember12], instance.dataset
   end
+
+  def test_read_set_attribute_works_with_two_enums
+    instance = TwoEnumsClass.new :drinks => Drinks.all, :dataset => Dataset.first
+    assert_equal Drinks.all, instance.drinks
+    assert_equal [Dataset.first], instance.dataset
+  end
 end
