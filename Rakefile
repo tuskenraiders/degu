@@ -13,11 +13,14 @@ GemHadar do
   test_dir    'test'
   test_files  Dir['test/**/*_test.rb']
   spec_dir    'spec'
-  ignore      '.*.sw[pon]', 'pkg', 'Gemfile.lock', '.rvmrc', 'coverage', '.DS_Store', '.ruby-gemset', '.ruby-version'
+  ignore      '.*.sw[pon]', 'pkg', 'Gemfile.lock', '.rvmrc', 'coverage',
+    '.DS_Store', '.ruby-gemset', '.ruby-version', '.bundle', '.AppleDouble'
+
   readme      'README.md'
 
   dependency  'activerecord', '>= 3.0', '< 5.0'
 
+  development_dependency 'test-unit'
   development_dependency 'mocha'
   development_dependency 'sqlite3'
   development_dependency 'rspec'

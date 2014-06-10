@@ -85,8 +85,11 @@ module Degu
     #  of the column and converts the value to an `Integer` if `String` is given.
     def read_set_attribute(attribute_name)
       value = read_attribute(attribute_name)
-      column_type = ((column_definition = self.class.columns_hash[attribute_name.to_s]) and column_definition.type)
-      value = value.to_i(10) if column_type == :string
+      if column_definition = self.class.columns_hash[attribute_name.to_s] and
+        column_type = column_definition.type and column_type == :string
+      then
+        value = value.to_i(10)
+      end
       value
     end
 
@@ -95,8 +98,11 @@ module Degu
     #  of the column and converts the value to an `String` if `String` is the column type. This is needed because
     #  implicit conversion produces something like `3.4532454354325645e+17` instead of an `integer`
     def write_set_attribute(attribute_name, value)
-      column_type = ((column_definition = self.class.columns_hash[attribute_name.to_s]) and column_definition.type)
-      value = value.to_s(10) if column_type == :string
+      if column_definition = self.class.columns_hash[attribute_name.to_s] and
+        column_type = column_definition.type and column_type == :string
+      then
+        value = value.to_s(10)
+      end
       write_attribute(attribute_name, value)
     end
 
