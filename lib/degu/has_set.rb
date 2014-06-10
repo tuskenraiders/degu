@@ -23,6 +23,19 @@ module Degu
           raise NameError, "There ist no class to take the set entries from (#{ne.message})."
         end
 
+        define_method :read_set_attribute do |attribute_name|
+          value = read_attribute(attribute_name)
+          column_type = ((column_definition = self.class.columns_hash[set_column]) and column_definition.type)
+          value = value.to_i(10) if column_type == :string
+          value
+        end
+
+        define_method :write_set_attribute do |attribute_name, value|
+          column_type = ((column_definition = self.class.columns_hash[set_column]) and column_definition.type)
+          value = value.to_s(10) if column_type == :string
+          write_attribute(attribute_name, value)
+        end
+
         define_method("#{set_name}=") do |argument_value|
           value = nil
           unless argument_value.nil?
@@ -31,11 +44,11 @@ module Degu
               value |= 1 << set_element.bitfield_index
             end
           end
-          write_attribute set_column, value
+          write_set_attribute set_column, value
         end
 
         define_method(set_name) do
-          value = read_attribute(set_column) or return
+          value = read_set_attribute(set_column) or return
           set_elements = enum_class.select do |enum_element|
             mask = 1 << enum_element.bitfield_index
             value & mask == mask
@@ -61,19 +74,19 @@ module Degu
         enum_class.each do |enum|
           define_method("#{set_name_singular}_#{enum.underscored_name}?") do
             mask = 1 << enum.bitfield_index
-            read_attribute(set_column) & mask == mask
+            read_set_attribute(set_column) & mask == mask
           end
 
           alias_method :"#{set_name_singular}_#{enum.underscored_name}", :"#{set_name_singular}_#{enum.underscored_name}?"
 
           define_method("#{set_name_singular}_#{enum.underscored_name}=") do |true_or_false|
             mask = 1 << enum.bitfield_index
-            total_value = read_attribute(set_column) 
+            total_value = read_set_attribute(set_column)
             current_value = mask & total_value == mask
             true_or_false = true  if true_or_false.to_s == "true" || true_or_false.respond_to?(:to_i) && true_or_false.to_i == 1
             true_or_false = false if true_or_false.to_s == "false" || true_or_false.respond_to?(:to_i) && true_or_false.to_i == 0
             if current_value != true_or_false
-              write_attribute set_column, true_or_false ? total_value | mask : total_value & ~mask
+              write_set_attribute set_column, true_or_false ? total_value | mask : total_value & ~mask
             end
           end
         end
