@@ -11,72 +11,72 @@ end
 describe "basic enum" do
 
   it "creates a class for the value type" do
-    Status.should be_an_instance_of(Class)
+    expect(Status).to be_an_instance_of(Class)
   end
 
   it "makes each value an instance of the value type" do
-    Status::NOT_STARTED.should be_an_instance_of(Status)
+    expect(Status::NOT_STARTED).to be_an_instance_of(Status)
   end
 
   it "exposes array of values" do
-    Status.values.should == [Status::NOT_STARTED, Status::IN_PROGRESS, Status::COMPLETE]
-    Status.all.should == [Status::NOT_STARTED, Status::IN_PROGRESS, Status::COMPLETE]
+    expect(Status.values).to eq [Status::NOT_STARTED, Status::IN_PROGRESS, Status::COMPLETE]
+    expect(Status.all).to eq [Status::NOT_STARTED, Status::IN_PROGRESS, Status::COMPLETE]
   end
 
   it "groks first and last to retreive value" do
-    Status.first.should == Status::NOT_STARTED
-    Status.last.should == Status::COMPLETE
+    expect(Status.first).to eq Status::NOT_STARTED
+    expect(Status.last).to eq Status::COMPLETE
   end
 
   it "enumerates over values" do
-    Status.map {|s| s.name}.should == %w[NOT_STARTED IN_PROGRESS COMPLETE]
+    expect(Status.map { |s| s.name }).to eq %w[NOT_STARTED IN_PROGRESS COMPLETE]
   end
 
   it "indexes values" do
-    Status[2].should == Status::COMPLETE
-    Color[0].should == Color::RED
-    Status['2'].should == Status::COMPLETE
-    Color['0'].should == Color::RED
+    expect(Status[2]).to eq Status::COMPLETE
+    expect(Color[0]).to eq Color::RED
+    expect(Status['2']).to eq Status::COMPLETE
+    expect(Color['0']).to eq Color::RED
   end
 
   it "provides index lookup on values" do
-    Status::IN_PROGRESS.index.should == 1
-    Color::GREEN.index.should == 1
+    expect(Status::IN_PROGRESS.index).to eq 1
+    expect(Color::GREEN.index).to eq 1
   end
 
   it "provides an id on values" do
-    Status::IN_PROGRESS.id.should == 1
-    Color::GREEN.id.should == 1
+    expect(Status::IN_PROGRESS.id).to eq 1
+    expect(Color::GREEN.id).to eq 1
   end
 
 
   it "provides name lookup on values" do
-    Status.with_name('IN_PROGRESS').should == Status::IN_PROGRESS
-    Color.with_name('GREEN').should == Color::GREEN
-    Color.with_name('IN_PROGRESS').should be_nil
+    expect(Status.with_name('IN_PROGRESS')).to eq Status::IN_PROGRESS
+    expect(Color.with_name('GREEN')).to eq Color::GREEN
+    expect(Color.with_name('IN_PROGRESS')).to be_nil
   end
 
   it "provides fuzzy name lookup on values" do
-    Fuzzy[0].should == Fuzzy::FooBar
-    Fuzzy[1].should == Fuzzy::BarFoo
-    Fuzzy[:FooBar].should == Fuzzy::FooBar
-    Fuzzy[:BarFoo].should == Fuzzy::BarFoo
-    Fuzzy['FooBar'].should == Fuzzy::FooBar
-    Fuzzy['BarFoo'].should == Fuzzy::BarFoo
-    Fuzzy[:foo_bar].should == Fuzzy::FooBar
-    Fuzzy[:bar_foo].should == Fuzzy::BarFoo
-    Fuzzy['foo_bar'].should == Fuzzy::FooBar
-    Fuzzy['bar_foo'].should == Fuzzy::BarFoo
-    Fuzzy[Fuzzy::FooBar].should == Fuzzy::FooBar
-    Fuzzy[Fuzzy::BarFoo].should == Fuzzy::BarFoo
+    expect(Fuzzy[0]).to eq Fuzzy::FooBar
+    expect(Fuzzy[1]).to eq Fuzzy::BarFoo
+    expect(Fuzzy[:FooBar]).to eq Fuzzy::FooBar
+    expect(Fuzzy[:BarFoo]).to eq Fuzzy::BarFoo
+    expect(Fuzzy['FooBar']).to eq Fuzzy::FooBar
+    expect(Fuzzy['BarFoo']).to eq Fuzzy::BarFoo
+    expect(Fuzzy[:foo_bar]).to eq Fuzzy::FooBar
+    expect(Fuzzy[:bar_foo]).to eq Fuzzy::BarFoo
+    expect(Fuzzy['foo_bar']).to eq Fuzzy::FooBar
+    expect(Fuzzy['bar_foo']).to eq Fuzzy::BarFoo
+    expect(Fuzzy[Fuzzy::FooBar]).to eq Fuzzy::FooBar
+    expect(Fuzzy[Fuzzy::BarFoo]).to eq Fuzzy::BarFoo
   end
 
   it "provides a reasonable to_s for values" do
-    Status::NOT_STARTED.to_s.should == "Status::NOT_STARTED"
+    expect(Status::NOT_STARTED.to_s).to eq "Status::NOT_STARTED"
   end
 
   it "makes values comparable" do
-    Color::RED.should < Color::GREEN
+    expect(Color::RED).to be < Color::GREEN
   end
 end
 
@@ -86,7 +86,7 @@ end
 
 describe "nested enum" do
   it "is namespaced in the containing module or class" do
-    MyNamespace::FooValue::Bar.class.should == MyNamespace::FooValue
+    expect(MyNamespace::FooValue::Bar.class).to eq MyNamespace::FooValue
   end
 end
 
@@ -98,7 +98,7 @@ end
 
 describe "enum with a block" do
   it "can define additional instance methods" do
-    Color::RED.abbr.should == "R"
+    expect(Color::RED.abbr).to eq "R"
   end
 end
 
@@ -123,11 +123,11 @@ end
 
 describe "enum with no values array and values declared in the block" do
   it "provides another way to declare values where an init method can take extra params" do
-    Size::Small.description.should == "Really really tiny"
+    expect(Size::Small.description).to eq "Really really tiny"
   end
 
   it "works the same as the basic form with respect to ordering" do
-    Size.values.should == [Size::Small, Size::Medium, Size::Large, Size::Unknown]
+    expect(Size.values).to eq [Size::Small, Size::Medium, Size::Large, Size::Unknown]
   end
 
   it "responds as expected to arbitrary method calls, in spite of using method_missing for value definition" do
@@ -135,11 +135,11 @@ describe "enum with no values array and values declared in the block" do
   end
 
   it "supports there being no extra data and no init() method defined, if you don't need them" do
-    HairColor::BLONDE.name.should == "BLONDE"
+    expect(HairColor::BLONDE.name).to eq "BLONDE"
   end
 
   it "calls the init method even if no arguments are provided" do
-    Size::Unknown.description.should == "NO DESCRIPTION GIVEN"
+    expect(Size::Unknown.description).to eq "NO DESCRIPTION GIVEN"
   end
 end
 
@@ -169,8 +169,8 @@ end
 
 describe "an enum with instance-specific method definitions" do
   it "allows each instance to have its own behavior" do
-    Rating::ThumbsDown.description.should == "real real bad"
-    Rating::ThumbsUp.description.should == "so so good"
+    expect(Rating::ThumbsDown.description).to eq "real real bad"
+    expect(Rating::ThumbsUp.description).to eq "so so good"
   end
 
   it "uses the implementation given at the top level if no alternate definition is given for an instance" do
@@ -178,16 +178,16 @@ describe "an enum with instance-specific method definitions" do
   end
 
   it "allows definition of a method on just one instance" do
-    Rating::ThumbsUp.thumbs_up_only_method.should == "this method is only defined on ThumbsUp"
+    expect(Rating::ThumbsUp.thumbs_up_only_method).to eq "this method is only defined on ThumbsUp"
     expect { Rating::NotRated.thumbs_up_only_method }.to raise_error(NoMethodError)
   end
 end
 
 describe "<=> comparison issue that at one time was causing segfaults on MRI" do
   it "doesn't cause the ruby process to bomb!" do
-    Color::RED.should < Color::GREEN
-    Color::RED.should_not > Color::GREEN
-    Color::RED.should < Color::BLUE
+    expect(Color::RED).to be < Color::GREEN
+    expect(Color::RED).not_to be > Color::GREEN
+    expect(Color::RED).to be < Color::BLUE
   end
 end
 
@@ -242,44 +242,44 @@ enum :Foo2 do
 end
 
 describe "use field method to specify methods and defaults" do
-  it "should define methods with defaults for fields" do
-    Foo1::Baz.foo.should == "my foo"
-    Foo2::Baz.foo.should == "my foo"
-    Foo1::Baz.bar.should == "my bar"
-    Foo2::Baz.bar.should == "my bar"
-    Foo1::Baz.baz.should == Foo1::Baz.__id__
-    Foo2::Baz.baz.should == Foo2::Baz.__id__
+  it "defines methods with defaults for fields" do
+    expect(Foo1::Baz.foo).to eq "my foo"
+    expect(Foo2::Baz.foo).to eq "my foo"
+    expect(Foo1::Baz.bar).to eq "my bar"
+    expect(Foo2::Baz.bar).to eq "my bar"
+    expect(Foo1::Baz.baz).to eq Foo1::Baz.__id__
+    expect(Foo2::Baz.baz).to eq Foo2::Baz.__id__
   end
 end
 
 describe "serialize and deserialize via Marshal" do
-  it "should define methods with defaults for fields" do
-    Marshal.load(Marshal.dump(Status::NOT_STARTED)).should == Status::NOT_STARTED
+  it "defines methods with defaults for fields" do
+    expect(Marshal.load(Marshal.dump(Status::NOT_STARTED))).to eq Status::NOT_STARTED
   end
 end
 
 if defined?(::JSON)
   describe "serialize and deserialize via JSON" do
-    it "should define methods with defaults for fields" do
-      JSON(JSON(Status::NOT_STARTED)).should == Status::NOT_STARTED
+    it "defines methods with defaults for fields" do
+      expect(JSON(JSON(Status::NOT_STARTED))).to eq Status::NOT_STARTED
     end
 
-    it "should not serialize fields by default" do
+    it "does not serialize fields by default" do
       foo1_json = JSON(Foo1::Baz)
       foo1_hash = JSON.parse(foo1_json, :create_additions => false)
-      foo1_hash.keys.sort.should == %w[name json_class].sort
+      expect(foo1_hash.keys.sort).to eq %w[name json_class].sort
     end
 
-    it "should serialize all fields if desired" do
+    it "serializes all fields if desired" do
       foo1_json = Foo1::Baz.to_json(:fields => true)
       foo1_hash = JSON.parse(foo1_json, :create_additions => false)
-      foo1_hash.keys.sort.should == %w[name json_class bar baz foo].sort
+      expect(foo1_hash.keys.sort).to eq %w[name json_class bar baz foo].sort
     end
 
-    it "should serialize requested fields" do
+    it "serializes requested fields" do
       foo1_json = Foo1::Baz.to_json(:fields => [ :bar, 'baz' ])
       foo1_hash = JSON.parse(foo1_json, :create_additions => false)
-      foo1_hash.keys.sort.should == %w[name json_class bar baz].sort
+      expect(foo1_hash.keys.sort).to eq %w[name json_class bar baz].sort
     end
   end
 end
@@ -316,5 +316,4 @@ describe "definition extensions included as models and block to use inside of th
     expect(Foo3::Baz.set_per_extension).to eq 'b_set_via_extension'
     expect(Foo3::Bang.set_per_extension).to eq 'c_set_via_extension'
   end
-
 end
