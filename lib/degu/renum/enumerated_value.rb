@@ -212,7 +212,11 @@ module Degu
 
       # Sorts enumerated values into the order in which they're declared.
       def <=> other
-        index <=> other.index
+        if other.respond_to? :index
+          index <=> other.index
+        else
+          index <=> other
+        end
       end
 
       # Returns a marshalled string for this enum instance.
