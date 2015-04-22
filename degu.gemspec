@@ -8,14 +8,14 @@ Gem::Specification.new do |s|
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.require_paths = ["lib"]
   s.authors = ["Florian Frank"]
-  s.date = "2014-06-10"
+  s.date = "2015-04-22"
   s.description = "Library that includes enums, and rails support for enums and bitfield sets."
   s.email = "dev@pkw.de"
   s.extra_rdoc_files = ["README.md", "lib/degu.rb", "lib/degu/has_enum.rb", "lib/degu/has_set.rb", "lib/degu/polite.rb", "lib/degu/renum.rb", "lib/degu/renum/enumerated_value.rb", "lib/degu/renum/enumerated_value_type_factory.rb", "lib/degu/rude.rb", "lib/degu/version.rb"]
   s.files = [".gitignore", ".travis.yml", "COPYING", "Gemfile", "README.md", "Rakefile", "VERSION", "degu.gemspec", "lib/degu.rb", "lib/degu/has_enum.rb", "lib/degu/has_set.rb", "lib/degu/polite.rb", "lib/degu/renum.rb", "lib/degu/renum/enumerated_value.rb", "lib/degu/renum/enumerated_value_type_factory.rb", "lib/degu/rude.rb", "lib/degu/version.rb", "spec/renum_spec.rb", "spec/spec_helper.rb", "test/has_enum_test.rb", "test/has_set_test.rb", "test/test_helper.rb", "test_helper.rb"]
   s.homepage = "https://github.com/tuskenraiders/degu"
   s.rdoc_options = ["--title", "Degu - Library for enums and bitfield sets.", "--main", "README.md"]
-  s.rubygems_version = "2.2.1"
+  s.rubygems_version = "2.4.6"
   s.summary = "Library for enums and bitfield sets."
   s.test_files = ["test/has_enum_test.rb", "test/has_set_test.rb"]
 

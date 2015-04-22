@@ -3,9 +3,9 @@ bundler_args: --binstubs
 
 # Specify which ruby versions you wish to run your tests on, each version will be used
 rvm:
-  - 1.9.3
-  - 2.0.0
-  - 2.1.2
+  - 2.0
+  - 2.1
+  - 2.2
   - rbx-19mode
   - jruby-19mode
   - ruby-head
