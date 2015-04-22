@@ -49,7 +49,6 @@ describe "basic enum" do
     expect(Color::GREEN.id).to eq 1
   end
 
-
   it "provides name lookup on values" do
     expect(Status.with_name('IN_PROGRESS')).to eq Status::IN_PROGRESS
     expect(Color.with_name('GREEN')).to eq Color::GREEN
@@ -315,5 +314,38 @@ describe "definition extensions included as models and block to use inside of th
     expect(Foo3::Bar.set_per_extension).to eq 'a_set_via_extension'
     expect(Foo3::Baz.set_per_extension).to eq 'b_set_via_extension'
     expect(Foo3::Bang.set_per_extension).to eq 'c_set_via_extension'
+  end
+end
+
+
+enum :LogLevel, %i[ DEBUG INFO WARN ERROR FATAL UNKNOWN ]
+
+enum :Nix, %i[ FOO BAR ]
+
+describe 'comparing renums' do
+  it 'can compare to other enums of the same type' do
+    expect(LogLevel::WARN).to be < LogLevel::ERROR
+    expect(LogLevel::WARN).not_to be < LogLevel::WARN
+  end
+
+  it 'cannot compare to enums of other types' do
+    expect(LogLevel::DEBUG <=> Nix::BAR).to be_nil
+  end
+
+  it 'can compare to indexes' do
+    expect(LogLevel::WARN).to be < 3
+  end
+
+  it 'cannot compare to unknown indexes' do
+    expect(LogLevel::DEBUG <=> 666).to be_nil
+  end
+
+  it 'can compare to names' do
+    expect(LogLevel::WARN).to be < :ERROR
+    expect(LogLevel::WARN).not_to be < :WARN
+  end
+
+  it 'cannot compare to unknown names' do
+    expect(LogLevel::DEBUG <=> :foo).to be_nil
   end
 end

@@ -212,10 +212,10 @@ module Degu
 
       # Sorts enumerated values into the order in which they're declared.
       def <=> other
-        if other.respond_to? :index
+        if self.class === other
           index <=> other.index
-        else
-          index <=> other
+        elsif other_value = self.class[other]
+          self <=> other_value
         end
       end
 
