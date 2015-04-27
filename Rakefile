@@ -18,12 +18,12 @@ GemHadar do
 
   readme      'README.md'
 
-  dependency  'activerecord', '>= 3.0', '< 5.0'
 
   development_dependency 'test-unit'
   development_dependency 'mocha'
   development_dependency 'sqlite3'
   development_dependency 'rspec'
+  development_dependency 'activerecord', '>= 3.0', '< 5.0'
 end
 
 desc 'Run specs and tests'
