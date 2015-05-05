@@ -211,11 +211,22 @@ module Degu
       end
 
       # Sorts enumerated values into the order in which they're declared.
-      def <=> other
+      def <=>(other)
         if self.class === other
           index <=> other.index
         elsif other_value = self.class[other]
           self <=> other_value
+        end
+      end
+
+      def ==(other)
+        case self <=> other
+        when nil
+          nil
+        when 0
+          true
+        else
+          false
         end
       end
 

@@ -334,6 +334,7 @@ describe 'comparing renums' do
 
   it 'can compare to indexes' do
     expect(LogLevel::WARN).to be < 3
+    expect(LogLevel::WARN < 2).to eq false
   end
 
   it 'cannot compare to unknown indexes' do
@@ -347,5 +348,34 @@ describe 'comparing renums' do
 
   it 'cannot compare to unknown names' do
     expect(LogLevel::DEBUG <=> :foo).to be_nil
+  end
+end
+
+describe 'renums being equal to things' do
+  it 'can be to other enums of the same type' do
+    expect(LogLevel::WARN).to eq LogLevel::WARN
+    expect(LogLevel::WARN == LogLevel::ERROR).to eq false
+  end
+
+  it 'cannot be equal to enums of other types' do
+    expect(LogLevel::DEBUG == Nix::BAR).to be_nil
+  end
+
+  it 'can be equal to indexes' do
+    expect(LogLevel::WARN).to eq 2
+    expect(LogLevel::WARN == 3).to eq false
+  end
+
+  it 'cannot be equal to unknown indexes' do
+    expect(LogLevel::DEBUG == 666).to be_nil
+  end
+
+  it 'can be equal to names' do
+    expect(LogLevel::WARN).to eq :WARN
+    expect(LogLevel::WARN == :ERROR).to eq false
+  end
+
+  it 'cannot be equal to unknown names' do
+    expect(LogLevel::DEBUG == :foo).to be_nil
   end
 end
