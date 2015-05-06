@@ -2,6 +2,7 @@ require 'degu'
 require 'test/unit'
 require 'mocha/setup'
 require 'active_record'
+require 'degu/init_active_record_plugins'
 
 ActiveRecord::Base.establish_connection(:adapter => "sqlite3", :database => ":memory:")
 ActiveRecord::Migration.verbose = false
