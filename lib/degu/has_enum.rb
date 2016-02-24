@@ -17,7 +17,7 @@ module Degu
 
         enum_column = options.has_key?(:column_name) ? options[:column_name].to_s : "#{enum_name}_type"
 
-        self.send("validate", "#{enum_column}_check_for_valid_type_of_enum")
+        self.send("validate", "#{enum_column}_check_for_valid_type_of_enum".to_sym)
 
         # throws a NameError if Enum Class doesn't exists
         enum_class = options.has_key?(:class_name) ? options[:class_name].to_s.constantize : enum_name.to_s.camelize.constantize
