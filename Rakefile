@@ -23,7 +23,7 @@ GemHadar do
   development_dependency 'mocha'
   development_dependency 'sqlite3'
   development_dependency 'rspec'
-  development_dependency 'activerecord', '>= 3.0', '< 5.0'
+  development_dependency 'activerecord', '>= 3.0', '< 5.1'
 end
 
 desc 'Run specs and tests'
