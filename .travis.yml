@@ -3,16 +3,14 @@ bundler_args: --binstubs
 
 # Specify which ruby versions you wish to run your tests on, each version will be used
 rvm:
-  - 2.0
   - 2.1
   - 2.2
-  - rbx-19mode
-  - jruby-19mode
+  - 2.3
   - ruby-head
+  - jruby-head
 matrix:
   allow_failures:
-    - rvm: jruby-19mode
-    - rvm: rbx-19mode
     - rvm: ruby-head
+    - rvm: jruby-head
 
 script: "bundle exec rake"
