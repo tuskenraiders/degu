@@ -164,6 +164,23 @@ class ClassWithIntergerColumn < ActiveRecord::Base
   has_enum :product
 end
 
+class ClassWithoutDb
+  include ActiveModel::Model
+  include Degu::HasEnum
+
+  def [](name)
+    instance_variable_get "@#{name}"
+  end
+
+  def []=(name, value)
+    instance_variable_set "@#{name}", value
+  end
+
+  attr_accessor :product_type
+
+  has_enum :product
+end
+
 class ClassWithLargeDataset < ActiveRecord::Base
   has_set :dataset
 end

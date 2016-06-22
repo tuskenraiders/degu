@@ -208,4 +208,15 @@ class HasEnumTest < Test::Unit::TestCase
     assert_equal false, with_integer.valid?
   end
 
+  def test_should_allow_for_nondb_models
+    without_db = ClassWithoutDb.new
+    without_db.product = Product::Titanium
+    assert_equal 'Titanium', without_db[:product_type]
+
+    without_db[:product_type] = 0
+    assert_equal Product::Silver, without_db.product
+
+    without_db[:product_type] = :gold
+    assert_equal Product::Gold, without_db.product
+  end
 end

@@ -15,20 +15,22 @@ module Degu
        #   end
       def has_enum(enum_name, options={})
 
-        enum_column = options.has_key?(:column_name) ? options[:column_name].to_s : "#{enum_name}_type"
+        enum_column = options.key?(:column_name) ? options[:column_name].to_s : "#{enum_name}_type"
 
         self.send("validate", "#{enum_column}_check_for_valid_type_of_enum".to_sym)
 
         # throws a NameError if Enum Class doesn't exists
-        enum_class = options.has_key?(:class_name) ? options[:class_name].to_s.constantize : enum_name.to_s.camelize.constantize
+        enum_class = options.key?(:class_name) ? options[:class_name].to_s.constantize : enum_name.to_s.camelize.constantize
 
         # Enum must be a Renum::EnumeratedValue Enum
         raise ArgumentError, "expected Renum::EnumeratedValue" unless enum_class.superclass == Renum::EnumeratedValue
 
-        define_method("reset_enum_changed") do
-          @enum_changed = false
+        if respond_to?(:after_save)
+          define_method("reset_enum_changed") do
+            @enum_changed = false
+          end
+          after_save :reset_enum_changed
         end
-        after_save :reset_enum_changed
 
         define_method("#{enum_name}") do
           begin
@@ -51,13 +53,19 @@ module Degu
           if enum_to_set.to_s.strip.empty?
             self[enum_column] = nil
           elsif enum_resolved
-            column_type = ((column_definition = self.class.columns_hash[enum_column]) and column_definition.type)
-            self[enum_column] = case column_type
-            when :integer
-              enum_resolved.index
-            else
-              enum_resolved.name
-            end
+            column_type =
+              if self.class.respond_to?(:columns_hash) and
+                column_definition = self.class.columns_hash[enum_column]
+              then
+                column_definition.type
+              end
+            self[enum_column] =
+              case column_type
+              when :integer
+                enum_resolved.index
+              else
+                enum_resolved.name
+              end
           else
             raise ArgumentError, "could not resolve #{enum_to_set.inspect}"
           end
