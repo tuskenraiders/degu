@@ -260,7 +260,8 @@ end
 if defined?(::JSON)
   describe "serialize and deserialize via JSON" do
     it "defines methods with defaults for fields" do
-      expect(JSON(JSON(Status::NOT_STARTED))).to eq Status::NOT_STARTED
+      status = JSON.parse((JSON(Status::NOT_STARTED)), create_additions: true)
+      expect(status).to eq Status::NOT_STARTED
     end
 
     it "does not serialize fields by default" do
