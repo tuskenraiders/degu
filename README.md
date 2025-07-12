@@ -1,5 +1,4 @@
 # Degu
-![Build status](https://travis-ci.org/tuskenraiders/degu.png)
 
 Degu bundles the renum Enumeration implementation with the has_enum and has_set
 rails plugins.
