@@ -1,6 +1,6 @@
 require 'degu'
 require 'test/unit'
-require 'mocha/setup'
+require 'mocha'
 require 'active_record'
 require 'degu/init_active_record_plugins'
 
