@@ -1,7 +1,7 @@
 # Degu
 
-Degu bundles the renum Enumeration implementation with the has_enum and has_set
-rails plugins.
+Degu bundles the renum Enumeration implementation with the `has_enum` and
+`has_set` rails plugins.
 
 ## Renum
 
@@ -157,8 +157,8 @@ Planet::Earth.to_json fields: true
 To use enum values as ActiveRecord attributes we integrated the [has_enum](https://github.com/caroo/has_enum) and
 [has_set](https://github.com/caroo/has_set) plugins, originally developed by [galaxycats](https://github.com/galaxycats).
 
-#### has_enum
-The has_enum extension provides an association with an enumeration class which requires the renum gem.
+#### `has_enum`
+The `has_enum` extension provides an association with an enumeration class which requires the renum gem.
 You have to make sure to have a column in your database table to store the string representation
 of the associated enum instance. The plugin will look by default for a column named like the enum
 itself plus the "_type" suffix.
@@ -200,7 +200,7 @@ class Customer
 end
 ```
 
-#### has_set
+#### `has_set`
 A simple plugin to enable any `ActiveRecord::Base` object to store a set of
 attributes in a set like structure represented through a bitfield on the database level.
 
