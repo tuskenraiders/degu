@@ -15,13 +15,13 @@ Gem::Specification.new do |s|
   s.files = [".gitignore".freeze, ".travis.yml".freeze, "CHANGES.md".freeze, "Gemfile".freeze, "LICENSE".freeze, "README.md".freeze, "Rakefile".freeze, "VERSION".freeze, "degu.gemspec".freeze, "lib/degu.rb".freeze, "lib/degu/has_enum.rb".freeze, "lib/degu/has_set.rb".freeze, "lib/degu/init_active_record_plugins.rb".freeze, "lib/degu/polite.rb".freeze, "lib/degu/railtie.rb".freeze, "lib/degu/renum.rb".freeze, "lib/degu/renum/enumerated_value.rb".freeze, "lib/degu/renum/enumerated_value_type_factory.rb".freeze, "lib/degu/rude.rb".freeze, "lib/degu/version.rb".freeze, "spec/renum_spec.rb".freeze, "spec/spec_helper.rb".freeze, "test/has_enum_test.rb".freeze, "test/has_set_test.rb".freeze, "test/test_helper.rb".freeze, "test_helper.rb".freeze]
   s.homepage = "https://github.com/tuskenraiders/degu".freeze
   s.rdoc_options = ["--title".freeze, "Degu - Library for enums and bitfield sets.".freeze, "--main".freeze, "README.md".freeze]
-  s.rubygems_version = "3.6.9".freeze
+  s.rubygems_version = "4.0.2".freeze
   s.summary = "Library for enums and bitfield sets.".freeze
   s.test_files = ["test/has_enum_test.rb".freeze, "test/has_set_test.rb".freeze]
 
   s.specification_version = 4
 
-  s.add_development_dependency(%q<gem_hadar>.freeze, ["~> 1.20".freeze])
+  s.add_development_dependency(%q<gem_hadar>.freeze, [">= 2.16.3".freeze])
   s.add_development_dependency(%q<test-unit>.freeze, [">= 0".freeze])
   s.add_development_dependency(%q<mocha>.freeze, [">= 0".freeze])
   s.add_development_dependency(%q<sqlite3>.freeze, [">= 0".freeze])
