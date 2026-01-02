@@ -18,7 +18,7 @@ GemHadar do
 
   readme      'README.md'
 
-
+  development_dependency 'all_images', '>= 0.11.2'
   development_dependency 'test-unit'
   development_dependency 'mocha'
   development_dependency 'sqlite3'
