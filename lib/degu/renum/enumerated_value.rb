@@ -157,7 +157,7 @@ module Degu
           # Fetches the correct enum determined by the deserialized JSON
           # document.
           def json_create(data)
-            JSON.deep_const_get(data[JSON.create_id])[data['name']]
+            Object.const_get(data[JSON.create_id])[data['name']]
           end
         end
       end
